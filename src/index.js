@@ -1,10 +1,54 @@
 import express from 'express';
 import cors from 'cors';
-import getColors from './colors';
+//import getColors from './colors';
 
 const app = express();
-
 app.use(cors());
+
+const bigNumber = require('big-number');
+app.get('/mytask2X', (req, res) => {
+  let count = (n) => {
+    if (n == 0) return 1;
+      if (n == 1) return 6 * 3 * count(0);
+      if (n == 2) return 6 * 2 * count(1) + 9 * 3 * count(0);
+        return bigNumber(count(n - 1)).multiply(12).add(bigNumber(count(n - 2)).multiply(18));
+      };
+
+  let n = req.query.i;
+  res.send(count(n).toString());
+});
+
+/*
+const results = [
+  1,
+  18,
+  243,
+  3240,
+  43254,
+  577368,
+  7706988,
+  102876480,
+  1373243544,
+  18330699168,
+  244686773808,
+  3266193870720,
+  43598688377184,
+  581975750199168,
+  7768485393179328,
+  103697388221736960,
+  1384201395738071424,
+  18476969736848122368,
+  246639261965462754048,
+];
+
+app.get('/mytask2X', (req, res) => {
+  const query = req.query;
+  if (query.i) {
+  res.json(results[query.i]);
+  console.log(query.i);
+}
+});
+
 
 app.get('/mytask2D', (req, res) => {
   let color = "" + req.query.color;
@@ -13,8 +57,6 @@ app.get('/mytask2D', (req, res) => {
   res.send(getColors(color, res));
 
 });
-
-/*
 
 
 function canonize(url) {
