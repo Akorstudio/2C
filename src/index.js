@@ -1,9 +1,21 @@
-
 import express from 'express';
 import cors from 'cors';
+import getColors from './colors';
 
 const app = express();
+
 app.use(cors());
+
+app.get('/mytask2D', (req, res) => {
+  let color = "" + req.query.color;
+  color = color.trim().toLowerCase().replace(/%20/g,' ') || '';
+  console.log(req.query, color);
+  res.send(getColors(color, res));
+
+});
+
+/*
+
 
 function canonize(url) {
   console.log(`get: ${url}`);
@@ -21,7 +33,7 @@ app.get('/mytask2C', (req,res) => {
   res.send(name);
   });
 
-/*
+
 app.get('/mytask2B', (req,res) => {
   const name = (req.query.fullname.trim() || 0);
   console.log(name);
